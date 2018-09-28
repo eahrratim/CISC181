@@ -1,23 +1,27 @@
+
+import java.lang.Math;
+
 public class CarPayment {
 	
 	private double CarCost;
 	private double InterestRate; 
-	private int loanLength; // in months
+	private double loanLength; // in months
 	private double downPayment;
-	private double Principal = CarCost - downPayment;
-	private double APR = InterestRate /12;
 	
-	public CarPayment(double CarCost,double InterestRate, double DownPayment, int loanLength) {
-		this.downPayment = DownPayment;
-		this.CarCost = CarCost;
-		this.loanLength  = loanLength;
-		this.InterestRate = InterestRate;
+	
+	public CarPayment(double Carcost,double interestRate, double DownPayment, double loanlength) {
+		downPayment = DownPayment;
+		CarCost = Carcost;
+		loanLength  = loanlength;
+		InterestRate = interestRate/100;
+		
 	}
 	
 	public double MonthlyPayment() {
-		return ((this.APR*this.Principal)/ (1- Math.pow((1 + this.APR), this.loanLength)));
+		double r = Math.pow((1 + (InterestRate/12)), loanLength);
+		return ((CarCost - downPayment)*(r * (InterestRate/12))/(r-1));
 	}
 	public double interestPaid() {
-		return (CarCost - (MonthlyPayment())); 
+		return ((MonthlyPayment()*loanLength - CarCost - downPayment)); 
 	}
 }
